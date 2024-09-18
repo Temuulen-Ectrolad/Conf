@@ -21,7 +21,7 @@ const okMessages = [
   "4. I would try to do my best to love you!",
   "5. We can struggle in IB together.",
   "6. I would buy or make you a lot of gifts such as flowers",
-  "So, will you be my girlfriend?"
+  "So, will you go on a date with me?"
 ];
 
 okButton.addEventListener("click", function () {
