@@ -24,6 +24,17 @@ const okMessages = [
   "So, will you go on a date with me?"
 ];
 
+// Messages to display for each "No" click
+const noMessages = [
+    "Are you sure?",
+    "Pookie please",
+    "Don't do this to me :(",
+    "You're breaking my heart",
+];
+
+let noClickCount = 0; // Start with index 0 for noMessages
+const MAX_NO_CLICKS = noMessages.length; // Number of noMessages
+
 okButton.addEventListener("click", function () {
   okClickCount++;
 
@@ -54,9 +65,17 @@ function handleYesClick() {
 }
 
 function handleNoClick() {
-  titleElement.innerHTML = "Oh no... :(";
-  buttonsContainer.classList.add("hidden");
-  changeImage("no");
+  if (noClickCount < MAX_NO_CLICKS) {
+    // Change image and update message for each "No" click
+    changeImage(11 + noClickCount); // Start from cat-11.jpg
+    titleElement.innerHTML = noMessages[noClickCount];
+    noClickCount++;
+  } else {
+    // Show the final "No" image and message
+    changeImage("no");
+    titleElement.innerHTML = "Oke :(";
+    buttonsContainer.classList.add("hidden"); // Hide buttons once the final image is shown
+  }
 }
 
 function updateMessage() {
@@ -69,30 +88,11 @@ function changeImage(image) {
   // Handle the final image separately
   if (image === "final") {
     catImg.src = `img/cat-10.jpg`; // Ensure this file exists
+  } else if (image === "yes") {
+    catImg.src = `img/cat-yes.jpg`; // Ensure this file exists for the "Yes" scenario
+  } else if (image === "no") {
+    catImg.src = `img/cat-no.jpg`; // Ensure this file exists for the final "No" scenario
   } else {
-    catImg.src = `img/cat-${image}.jpg`;
+    catImg.src = `img/cat-${image}.jpg`; // Change image based on the counter
   }
 }
-// Function to send the choice to the backend
-function sendChoiceToBackend(choice) {
-  fetch("/api/submitChoice", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ choice }),
-  })
-    .then((response) => response.json())
-    .then((data) => console.log(data.message))
-    .catch((error) => console.error("Error:", error));
-}
-
-yesButton.addEventListener("click", function () {
-  sendChoiceToBackend("yes");
-  handleYesClick();
-});
-
-noButton.addEventListener("click", function () {
-  sendChoiceToBackend("no");
-  handleNoClick();
-});
