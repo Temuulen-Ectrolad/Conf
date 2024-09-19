@@ -73,3 +73,26 @@ function changeImage(image) {
     catImg.src = `img/cat-${image}.jpg`;
   }
 }
+// Function to send the choice to the backend
+function sendChoiceToBackend(choice) {
+  fetch("/api/submitChoice", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ choice }),
+  })
+    .then((response) => response.json())
+    .then((data) => console.log(data.message))
+    .catch((error) => console.error("Error:", error));
+}
+
+yesButton.addEventListener("click", function () {
+  sendChoiceToBackend("yes");
+  handleYesClick();
+});
+
+noButton.addEventListener("click", function () {
+  sendChoiceToBackend("no");
+  handleNoClick();
+});
