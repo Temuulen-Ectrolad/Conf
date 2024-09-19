@@ -96,3 +96,32 @@ noButton.addEventListener("click", function () {
   sendChoiceToBackend("no");
   handleNoClick();
 });
+function handleYesClick() {
+  titleElement.innerHTML = "Yayyy!! :3";
+  buttonsContainer.classList.add("hidden");
+  changeImage("yes");
+
+  // Send "yes" choice to backend
+  fetch('/api/submitChoice', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ choice: 'yes' }),
+  });
+}
+
+function handleNoClick() {
+  titleElement.innerHTML = "Oh no... :(";
+  buttonsContainer.classList.add("hidden");
+  changeImage("no");
+
+  // Send "no" choice to backend
+  fetch('/api/submitChoice', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ choice: 'no' }),
+  });
+}
